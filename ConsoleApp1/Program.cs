@@ -19,13 +19,20 @@ namespace ConsoleApp1
             dynamic database = new DynamicDatabase(dataContext);
 
             Console.WriteLine("---database.DemoObjects.SearchByNumber(500)---");
-            foreach (var item in database.DemoObjects.SearchByNumber(500))
+            var aa = database.DemoObjects.SearchByNumber(500);
+            foreach (var item in database.DemoObjects.SearchByNumber(500).DoIt())
             {
                 Console.WriteLine("- " + JsonConvert.SerializeObject(item));
             }
 
             Console.WriteLine("---database.DemoObjects.SearchByTitle(DemoObject 99)---");
             foreach (var item in database.DemoObjects.SearchByTitle("DemoObject 99"))
+            {
+                Console.WriteLine("- " + JsonConvert.SerializeObject(item));
+            }
+
+            Console.WriteLine("---database.DemoObjects.GTEByNumber(990)---");
+            foreach (var item in database.DemoObjects.GTEByNumber(990))
             {
                 Console.WriteLine("- " + JsonConvert.SerializeObject(item));
             }

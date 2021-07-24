@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace ConsoleApp1
 {
     public static class Helper
     {
+        public static MethodInfo GetStringContainsMethodInfo = typeof(string)
+           .GetMethod(nameof(string.Contains), new Type[] { typeof(string) });
+
         public static Func<object> GenerateGetter(string propName, object instance)
         {
             var objParameterExpr = Expression.Constant(instance);
@@ -30,6 +34,15 @@ namespace ConsoleApp1
                             // second argument - Expression<Func<TSource, bool>> predicate
                             body
                             );
+        }
+
+        public static Expression BuildPredicate(Type entityType,
+            ParameterExpression parameterExpression,
+            Expression bodyExpression)
+        {
+            return Expression.Lambda(typeof(Func<,>).MakeGenericType(entityType, typeof(bool)),
+                bodyExpression,
+                parameterExpression);
         }
     }
 
